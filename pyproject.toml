@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ariadne-pydantic"
+version = "0.1.0"
+description = "A code-first approach with Ariadne and Pydantic"
+authors = ["Gary Li Guoliang <gary@liguoliang.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+ariadne = "^0.12.0"
+uvicorn = "^0.11.8"
+pydantic = "^1.6.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.0.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
