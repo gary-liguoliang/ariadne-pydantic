@@ -4,7 +4,7 @@ from uuid import uuid4
 from ariadne import QueryType
 from pydantic import BaseModel
 
-from gql_schema_generator import generate_gql_schema
+from gql_schema_generator import generate_gql_schema, GQLParameter
 from gql_schema_generator import GQLOperation
 from gql_schema_generator import GQLSchema
 
@@ -18,7 +18,7 @@ query = QueryType()
 
 
 @query.field('hello')
-def resolve_playgrounds(_, info) -> HelloMessage:
+def resolve_playgrounds(_, info, body: str) -> HelloMessage:
     return HelloMessage(from_user=uuid4(), body='Hello world')
 
 
@@ -28,7 +28,8 @@ def test_generate_gql_schema():
             GQLOperation(
                 filed_name='hello',
                 return_type='HelloMessage',
-            ),
+                parameters=[GQLParameter(name='body', type_='String', required=True)]
+        )
         ],
         user_defined_types={HelloMessage},
     )
@@ -42,13 +43,14 @@ def test_gql_schema_to_string():
             GQLOperation(
                 filed_name='hello',
                 return_type='HelloMessage',
+                parameters=[GQLParameter(name='body', type_='String', required=True)]
             ),
         ],
         user_defined_types={HelloMessage},
     )
 
     expected_str = """type Query {
- hello:HelloMessage
+ hello(body: String!):HelloMessage
  }
  type HelloMessage{
 body: String
